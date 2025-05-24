@@ -73,8 +73,8 @@ def mostrar_consejos():
     tema = st.selectbox("Selecciona un tema para ver consejos:",["Seleccionar", "Carreras"] )
     if tema == "Carreras":
         carrera = st.selectbox(
-            "Selecciona la carrera que te interese:",
-            ["Ingeniería Industrial", "Ingeniería de Sistemas", "Ingeniería Eléctrica", "Ingeniería Electrónica", "Diseño Industrial", "Enfermería", "Fisioterapia", "Derecho", "Contaduría Pública", "Administración de Empresas", "Psicología", "Trabajo Social", "Ingeniería Civil", "Ingeniería Mecánica", "Ingeniería Ambiental" ]
+            "Seleccionar la carrera que te interese:",
+            ["Seleccionar", "Ingeniería Industrial", "Ingeniería de Sistemas", "Ingeniería Eléctrica", "Ingeniería Electrónica", "Diseño Industrial", "Enfermería", "Fisioterapia", "Derecho", "Contaduría Pública", "Administración de Empresas", "Psicología", "Trabajo Social", "Ingeniería Civil", "Ingeniería Mecánica", "Ingeniería Ambiental" ]
         )
         
         if carrera:
