@@ -70,12 +70,112 @@ def mostrar_inicio():
 
 def mostrar_consejos():
     st.title("💡 Consejos")
-    temas = ["Elegir carrera", "Universidad", "Hábitos de estudio", "Motivación"]
-    tema = st.selectbox("Selecciona un tema para ver consejos:", temas)
-    st.write(f"Consejos sobre **{tema}**:")
-    st.markdown("- Explora tus intereses y habilidades.")
-    st.markdown("- Pregunta a profesionales en el área.")
-    st.markdown("- Investiga el plan de estudios.")
+    tema = st.selectbox("Selecciona un tema para ver consejos:",["Seleccionar", "Carreras"] )
+    if tema == "Carreras":
+        carrera = st.selectbox(
+            "Selecciona la carrera que te interese:",
+            ["Ingeniería Industrial", "Ingeniería de Sistemas", "Ingeniería Eléctrica", "Ingeniería Electrónica", "Diseño Industrial", "Enfermería", "Fisioterapia", "Derecho", "Contaduría Pública", "Administración de Empresas", "Psicología", "Trabajo Social", "Ingeniería Civil", "Ingeniería Mecánica", "Ingeniería Ambiental" ]
+        )
+        
+        if carrera:
+             info_carreras = {
+                "Ingeniería Industrial": {
+                 "a": "Aprende Excel y herramientas de análisis desde temprano.",
+                 "b": "Familiarízate con metodologías como Lean, Six Sigma y simulación.",
+                 "c": "Desarrolla habilidades blandas (liderazgo, comunicación, trabajo en equipo).",
+                 "d": "Realiza prácticas o proyectos en empresas reales cuanto antes."
+            },
+                "Ingeniería de Sistemas": {
+                 "a": "Domina los fundamentos: algoritmos, estructuras de datos y lógica.",
+                 "b": "Practica constantemente con proyectos personales o freelance.",
+                 "c": "Aprende inglés técnico y plataformas como GitHub.",
+                 "d": "Mantente actualizado en nuevas tecnologías (IA, blockchain, etc.)."
+            },
+                 "Ingeniería Eléctrica": {
+                 "a": "Refuerza tu base en matemáticas y física.",
+                 "b": "Aprende a usar simuladores como MATLAB, Proteus o PSpice.",
+                 "c": "Realiza laboratorios con atención al detalle.",
+                 "d": "Participa en semilleros o proyectos energéticos."
+            },
+                 "Ingeniería Electrónica": {
+                 "a": "Refuerza conocimientos en circuitos y programación de microcontroladores (Arduino, ESP32).",
+                 "b": "Participa en clubes de robótica o electrónica.",
+                 "c": "Documenta todos tus proyectos y prácticas.",
+                 "d": "Relaciónate con estudiantes de otras ramas (sistemas, eléctrica)."
+            },
+                 "Diseño Industrial": {
+                 "a": "Aprende a usar software como Rhino, SolidWorks, Illustrator y AutoCAD.",
+                 "b": "Crea portafolios desde primer semestre.",
+                 "c": "Sé curioso: estudia tendencias, formas, materiales y ergonomía.",
+                 "d": "Participa en concursos o ferias de diseño."
+            },
+                "Enfermería": {
+                 "a": "Desarrolla empatía y habilidades de comunicación con pacientes.",
+                 "b": "Organiza tu tiempo para prácticas clínicas, que suelen ser exigentes.",
+                 "c": "Mantente actualizado en protocolos de bioseguridad y primeros auxilios. ",
+                 "d": "Busca mentoría de enfermeros experimentados."
+            },
+                 "Fisioterapia": {
+                 "a": "Estudia bien la anatomía y biomecánica.",
+                 "b": "Cuida tu postura y salud física: tu cuerpo es tu herramienta.",
+                 "c": "Participa en voluntariados en fundaciones o clubes deportivos.",
+                 "d": "Aprende técnicas manuales y manejo de equipos desde temprano."
+            },
+                 "Derecho": {
+                 "a": "Desarrolla lectura crítica y capacidad de argumentación.",
+                 "b": "Aprende a escribir bien: los textos jurídicos deben ser precisos.",
+                 "c": "Estudia con códigos y constitución en mano.",
+                 "d": "Participa en simulacros de audiencias o grupos de debate."
+            },
+                 "Contaduría Pública": {
+                 "a":"Practica contabilidad desde primer semestre (usa software contable).",
+                 "b": "Aprende normativas como NIIF y manejo tributario colombiano.",
+                 "c": "Estudia casos reales y lleva tus propias cuentas.",
+                 "d": "Sé muy organizado con tu documentación."
+            },
+                 "Administración de Empresas": {
+                 "a": "Fomenta pensamiento estratégico y toma de decisiones.",
+                 "b": "Aprende sobre liderazgo, marketing, finanzas y emprendimiento.",
+                 "c": "Participa en ferias empresariales o crea tu microempresa.",
+                 "d": "Aprovecha materias electivas para especializarte."
+            },
+                 "Psicología": {
+                 "a": "Cuida tu salud mental desde el inicio.",
+                 "b": "Estudia con base en casos reales y entrevistas.",
+                 "c": "Participa en prácticas sociales o clínicas cuando puedas.",
+                 "d": "Investiga sobre neurociencia y psicometría."
+            },
+                 "Trabajo Social": {
+                 "a": "Desarrolla habilidades comunicativas y escucha activa.",
+                 "b": "Involúcrate en procesos comunitarios desde los primeros semestres.",
+                 "c": "Aprende sobre políticas públicas y legislación social.",
+                 "d": "Ten apertura a contextos sociales diversos."
+            },
+                 "Ingeniería Civil": {
+                 "a": "Aprende AutoCAD, Civil 3D, SAP2000, y herramientas de diseño estructural",
+                 "b": "Asiste a obras y practica levantamientos topográficos.",
+                 "c": "Cuida la ética en temas de licitaciones y presupuestos.",
+                 "d": "Aprende a trabajar bajo presión y en campo."
+            },
+                 "Ingeniería Mecánica": {
+                 "a": "Refuerza física, termodinámica, y mecánica de materiales.",
+                 "b": "Aprende SolidWorks, Inventor, MATLAB, y simulaciones por elementos finitos.",
+                 "c": "Participa en proyectos como diseño de autos o máquinas.",
+                 "d": "Asegúrate de entender los procesos de manufactura."
+            },
+                 "Ingeniería Ambiental": {
+                 "a": "Aprende sobre legislación ambiental colombiana.",
+                 "b": "Participa en proyectos de reciclaje, cuidado del agua, o reforestación.",
+                 "c": "Refuerza química, microbiología, y procesos de tratamiento.",
+                 "d": "Apóyate en GIS y software como ArcGIS o HEC-RAS."
+            }
+        }
+        st.markdown(f"Has seleccionado la carrera **{carrera}**")
+        st.write(f"- {info_carreras.get(carrera, {}).get('a', 'Informacion no disponible')}")
+        st.write(f"- {info_carreras.get(carrera, {}).get('b', 'Informacion no disponible')}")
+        st.write(f"- {info_carreras.get(carrera, {}).get('c', 'Informacion no disponible')}")
+        st.write(f"- {info_carreras.get(carrera, {}).get('d', 'Informacion no disponible')}")
+
 
     if st.button("🎲 Consejo aleatorio"):
         import random
@@ -317,3 +417,5 @@ elif st.session_state.pagina == 'consejos':
     mostrar_consejos()
 elif st.session_state.pagina == 'buscar':
     mostrar_busqueda()
+
+  
