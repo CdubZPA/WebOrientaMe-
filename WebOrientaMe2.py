@@ -437,7 +437,7 @@ if 'nombre_usuario' not in st.session_state:
 
 # Créditos
 st.sidebar.markdown("---")
-st.sidebar.caption("Desarrollado por Camilo| Uver| Nicolas| Anderson| Camila | Proyecto universitario 2025")
+st.sidebar.caption("Desarrollado por Camilo Sierra| Uver Gomez| Nicolas Almeida| Anderson Murcia| Camila Gomez| Proyecto universitario 2025")
 st.sidebar.caption("[Instagram](https://www.instagram.com/_cqmilo/) | [Tiktok](https://www.tiktok.com/@_cqmilo?is_from_webapp=1&sender_device=pc)")
 
 
