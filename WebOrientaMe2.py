@@ -2,9 +2,12 @@ import streamlit as st
 import pandas as pd
 import os
 import json
+import altair as alt
+
 
 
 st.set_page_config(page_title="OrientaMe+", layout="centered")
+
 
 # Página de lobby (introducción y nombre)
 def mostrar_lobby():
@@ -57,7 +60,7 @@ with open(RESEÑAS_FILE, "w", encoding="utf-8") as f:
 
 
 def mostrar_inicio():
-    st.title(f"🎓 Bienvenido a OrientaMe+ (Versión Avanzada), {st.session_state.nombre_usuario}!")
+    st.title(f"🎓 Bienvenido a OrientaMe+ {st.session_state.nombre_usuario}!")
     st.subheader("Sumérgete en esta aventura para descubrir tu camino profesional")
     st.subheader("¿Qué deseas hacer?")
     col1, col2 = st.columns(2)
@@ -215,9 +218,9 @@ def calcular_probabilidad(icfes, corte):
 def mostrar_busqueda():
     st.title("🔍 Orientador de Carreras Personalizado")
 
-    st.header(f"Ingrese los siguiente datos {st.session_state.nombre_usuario}")
+    st.header(f"Ingrese los siguientes datos {st.session_state.nombre_usuario}")
     edad = st.number_input("Edad:", min_value=14, max_value=99, value=18)
-    universidad = st.selectbox("Universidad a postularse:", ["UIS", "UTS", "SENA",])
+    universidad = st.selectbox("Universidad a postularse:", ["UIS", "UTS", "SENA"])
     fortalezas = st.multiselect("Áreas en las que te sientes fuerte:", ["Matemáticas", "Comunicación", "Biología", "Arte", "Liderazgo", "Tecnología"])
     
 
@@ -233,7 +236,22 @@ def mostrar_busqueda():
     intereses = st.multiselect("Áreas de interés:", ["Tecnología", "Arte", "Salud", "Educación", "Negocios", "Ciencia"])
 
     if st.button("🔎 Obtener recomendaciones"):
-         # Diccionario de áreas de interés por carrera
+        st.session_state.recomendar = True
+        st.session_state.recomendar = True
+        st.session_state.icfes_total = icfes_total
+        st.session_state.intereses = intereses
+        st.session_state.edad = edad
+        st.session_state.universidad = universidad
+        st.session_state.fortalezas = fortalezas
+        st.session_state.mates = mates
+        st.session_state.ingles = ingles
+        st.session_state.lectura = lectura
+        st.session_state.sociales = sociales
+        st.session_state.ciencias = ciencias
+
+        st.session_state.resultados_generados = True
+
+        # Diccionario de áreas de interés por carrera
         intereses_por_carrera = {
             "Ingeniería Industrial": ["Negocios", "Ciencia"],
             "Ingeniería de Sistemas": ["Tecnología", "Ciencia"],
@@ -279,29 +297,31 @@ def mostrar_busqueda():
                 puntaje += 15
             probabilidad = calcular_probabilidad(icfes_total / 5, pesos[5])
             resultados.append((carrera, puntaje, probabilidad))
-        
-    
-        df = pd.DataFrame(resultados, columns=['Carrera', 'Puntaje', 'Probabilidad'])
-        df = df.sort_values(by="Puntaje", ascending=False).set_index('Carrera')
 
+        df = pd.DataFrame(resultados, columns=['Carrera', 'Puntaje', 'Probabilidad'])
+        st.session_state.df_resultados = df.copy()
+        st.session_state.df_resultados = df.copy()
+        st.session_state.df_resultados = df.copy()
+    if st.session_state.get('recomendar') and 'df_resultados' in st.session_state:
+        df = st.session_state.df_resultados.sort_values(by="Puntaje", ascending=False).set_index('Carrera')
         st.subheader("🔝 Carreras recomendadas")
-        import altair as alt
         chart = alt.Chart(df.reset_index().head(5)).mark_bar(cornerRadiusTopLeft=5, cornerRadiusTopRight=5).encode(
-            x=alt.X('Carrera:N', sort='-y', title='Carrera'),
-            y=alt.Y('Puntaje:Q', title='Puntaje Total'),
-            color=alt.Color('Carrera:N', legend=None),
-            tooltip=['Carrera', 'Puntaje', 'Probabilidad']
+             x=alt.X('Carrera:N', sort='-y', title='Carrera'),
+             y=alt.Y('Puntaje:Q', title='Puntaje Total'),
+             color=alt.Color('Carrera:N', legend=None),
+             tooltip=['Carrera', 'Puntaje', 'Probabilidad']
         ).properties(
-            title='Top 5 Carreras Recomendadas',
-            width=600,
-            height=400
+             title='Top 5 Carreras Recomendadas',
+             width=600,
+             height=400
         )
+
         st.altair_chart(chart, use_container_width=True)
         st.table(df.head(5))
 
-        seleccion = st.selectbox("Selecciona una carrera para más información:", df.head(5).index)
+        seleccion = st.selectbox("Selecciona una carrera para más información:", df.head(5).index, key="carrera_info")
         if seleccion:
-            info_carreras = {
+            info_carreras = { 
                 "Ingeniería Industrial": {
                     "Asignaturas": "Matemáticas, física, estadística, investigación de operaciones, gestión de la producción, logística, calidad, finanzas, ingeniería económica, gestión del talento humano.",
                     "Entornos": "Empresas manufactureras, consultorías, logística, calidad, producción, gestión de proyectos, emprendimiento.",
@@ -377,7 +397,8 @@ def mostrar_busqueda():
                     "Entornos": "Empresas de consultoría ambiental, entidades gubernamentales, ONGs, industrias.",
                     "Posgrados": "Maestría en Ingeniería Ambiental, especializaciones en gestión ambiental, tratamiento de aguas."
                 }
-            }
+            } 
+
             st.markdown(f"### Información sobre **{seleccion}**")
             st.write("- Duración: 10 semestres")
             st.write(f"- Asignaturas principales: {info_carreras.get(seleccion, {}).get('Asignaturas', 'Información no disponible')}")
@@ -385,11 +406,16 @@ def mostrar_busqueda():
             st.write(f"- Opciones de posgrado: {info_carreras.get(seleccion, {}).get('Posgrados', 'Información no disponible')}")
             st.write(f"- 📊 **Probabilidad de ingreso:** {df.loc[seleccion, 'Probabilidad']}")
 
-    if st.button("⬅️ Volver al inicio"):
-        st.session_state.pagina = 'inicio'
+        if st.button("⬅️ Volver al inicio"):
+            st.session_state.pagina = 'inicio'
 
 # Información en el sidebar
-st.sidebar.info("OrientaMe - Proyecto universitario | Hecho con Streamlit")
+if st.sidebar.button("🏠 Volver al inicio"):
+    st.session_state.pagina = 'inicio'
+if st.sidebar.button("🔍 Ir a buscador"):
+    st.session_state.pagina = 'buscar'
+if st.sidebar.button("💡 Ver consejos", key="btn_consejos_sidebar"):
+    st.session_state.pagina = 'consejos'
 
 # Sección de reseñas en el sidebar
 st.sidebar.markdown("---")
@@ -409,6 +435,12 @@ if 'nombre_usuario' not in st.session_state:
     st.session_state.nombre_usuario = ''
 
 
+# Créditos
+st.sidebar.markdown("---")
+st.sidebar.caption("Desarrollado por Camilo| Uver| Nicolas| Anderson| Camila | Proyecto universitario 2025")
+st.sidebar.caption("[Instagram](https://www.instagram.com/_cqmilo/) | [Tiktok](https://www.tiktok.com/@_cqmilo?is_from_webapp=1&sender_device=pc)")
+
+
 if st.session_state.pagina == 'lobby':
     mostrar_lobby()
 elif st.session_state.pagina == 'inicio':
@@ -418,4 +450,4 @@ elif st.session_state.pagina == 'consejos':
 elif st.session_state.pagina == 'buscar':
     mostrar_busqueda()
 
-  
+
